@@ -36,7 +36,7 @@ Clear leaderboard
 
 Logout safely
 
-#Quiz Features
+# Quiz Features
 
 Multiple-choice questions
 
