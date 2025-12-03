@@ -188,6 +188,68 @@ class Admin extends User implements Playable {
             System.out.println("True/False added!");
         }
     }
+
+    private void viewQuestions() {
+        System.out.println("\n--- QUESTIONS ---");
+        int i = 1;
+        for (Question q : questions) {
+            System.out.println(i++ + ". " + q.questionText);
+        }
+    }
+
+    private void showLeaderboard() {
+        System.out.println("\n--- LEADERBOARD ---");
+
+        if (leaderboard.isEmpty()) {
+            System.out.println("No scores yet.");
+            return;
+        }
+
+        leaderboard.sort((a, b) -> b.getScore() - a.getScore());
+
+        for (Student s : leaderboard) {
+            System.out.println(s.getName() + " : " + s.getScore());
+        }
+    }
+
+    private void clearLeaderboard() {
+        leaderboard.clear();
+        System.out.println("Leaderboard cleared!");
+    }
+
+    // STATIC ACCESS
+    public static ArrayList<Student> getLeaderboard() { return leaderboard; }
+}
+
+ class MainPlay {
+    static Scanner input = new Scanner(System.in);
+
+    static HashMap<String, Student> studentAccounts = new HashMap<>();
+    static HashMap<String, Admin> adminAccounts = new HashMap<>();
+
+    public static void main(String[] args) {
+
+        adminAccounts.put("admin", new Admin("admin", "1234"));
+
+        System.out.println("=== QUIZ SYSTEM ===");
+
+        while (true) {
+            System.out.println("\n1. Login");
+            System.out.println("2. Signup (Student only)");
+            System.out.println("3. Exit");
+            System.out.print("Choose: ");
+            String choice = input.nextLine();
+            switch (choice) {
+                case "1" -> login();
+                case "2" -> signupStudent();
+                case "3" -> {
+                    System.out.println("Goodbye!");
+                    return;
+                }
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+    }
 static void signupStudent() {
         System.out.print("Choose username: ");
         String user = input.nextLine();
