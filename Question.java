@@ -124,6 +124,50 @@ class Admin extends User implements Playable {
     }
 }
 
+ class QuizGame {
+    private static Scanner input = new Scanner(System.in);
+
+    private ArrayList<Question> questions = new ArrayList<>();
+    private static ArrayList<Student> leaderboard = new ArrayList<>();
+    private User currentUser;
+
+    public QuizGame(User user) {
+        this.currentUser = user;
+    }
+
+    public void loadDefaultQuestions() {
+        questions.add(new MultipleChoiceQuestion(
+                "What is 5 + 5?",
+                new String[]{"7", "10", "12"},
+                "2"
+        ));
+        questions.add(new TrueFalseQuestion("Java is OOP", "1"));
+    }
+
+    public void startQuiz() {
+        Student stu = (Student) currentUser;
+        stu.startGame();
+        stu.play();
+
+        for (Question q : questions) {
+            q.display();
+            System.out.print("Enter your answer: ");
+            String ans = input.nextLine();
+
+            if (q.checkAnswer(ans)) {
+                stu.addScore(10);
+                System.out.println("Correct!\n");
+            } else {
+                System.out.println("Wrong!\n");
+            }
+        }
+
+        leaderboard.add(stu);
+        stu.endGame();
+    }
+
+    // ----------- ADMIN FEATURES -----------
+        
 
  public void adminPanel() {
         Admin admin = (Admin) currentUser;
