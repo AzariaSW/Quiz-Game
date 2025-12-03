@@ -23,6 +23,51 @@ class MultipleChoiceQuestion extends Question {
     public MultipleChoiceQuestion(String questionText, String[] options, String correctAnswer) {
         super(questionText, options, correctAnswer);
     }
+ static void signupStudent() {
+        System.out.print("Choose username: ");
+        String user = input.nextLine();
+        System.out.print("Choose password: ");
+        String pass = input.nextLine();
+
+        if (studentAccounts.containsKey(user)) {
+            System.out.println("Username already exists.");
+            return;
+        }
+
+        studentAccounts.put(user, new Student(user, pass));
+        System.out.println("Signup successful!");
+    }
+
+    static void login() {
+        System.out.print("Username: ");
+        String user = input.nextLine();
+        System.out.print("Password: ");
+        String pass = input.nextLine();
+
+        if (adminAccounts.containsKey(user)) {
+            Admin ad = adminAccounts.get(user);
+            if (ad.password.equals(pass)) {
+                QuizGame q = new QuizGame(ad);
+                q.adminPanel();
+                return;
+            }
+        }
+
+        if (studentAccounts.containsKey(user)) {
+            Student st = studentAccounts.get(user);
+            if (st.password.equals(pass)) {
+                QuizGame q = new QuizGame(st);
+                q.loadDefaultQuestions();
+                q.startQuiz();
+                return;
+            }
+        }
+
+        System.out.println("Invalid login.");
+    }
+}   
+    
+    
 
     @Override
     public boolean checkAnswer(String userAnswer) {
