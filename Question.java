@@ -100,6 +100,75 @@ class TrueFalseQuestion extends Question {
         System.out.println("2. False");
     }
 }
+interface Playable {
+    void startGame();
+    void endGame();
+}
+
+abstract class User {
+    protected String username;
+    protected String password;
+    protected int score;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public abstract void play();
+}
+
+class Student extends User implements Playable {
+
+    public Student(String username, String password) {
+        super(username, password);
+    }
+
+    @Override
+    public void play() {
+        System.out.println(username + " is playing...");
+    }
+
+    @Override
+    public void startGame() {
+        System.out.println("Quiz starting for " + username + "...");
+    }
+
+    @Override
+    public void endGame() {
+        System.out.println("Quiz ended. Your score: " + score);
+    }
+
+    public void addScore(int points) {
+        score += points;
+    }
+
+    public int getScore() { return score; }
+
+    public String getName() { return username; }
+}
+
+class Admin extends User implements Playable {
+
+    public Admin(String username, String password) {
+        super(username, password);
+    }
+
+    @Override
+    public void play() {
+        System.out.println(username + " opened admin panel...");
+    }
+
+    @Override
+    public void startGame() {
+        System.out.println("Admin logged in!");
+    }
+
+    @Override
+    public void endGame() {
+        System.out.println("Admin logged out!");
+    }
+}
 
 
  public void adminPanel() {
